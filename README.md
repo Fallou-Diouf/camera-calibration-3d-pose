@@ -88,3 +88,6 @@ $$[k_1, k_2, p_1, p_2, k_3] = [0.1088, -0.5957, 0.0156, 0.0216, 1.0892]$$
 
 ### Visualisation de la Pose 3D (Réalité Augmentée) :
 ![Pose 3D Result](data/output/pose_3d_resultat.jpg)
+
+### Photos avec le damier coloré
+![Damier coloré](<data/output/corners_detected/detected_PHOTO-2026-10-28-17-01-07 2.jpg>)

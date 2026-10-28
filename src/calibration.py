@@ -21,11 +21,11 @@ objpoints = []
 imgpoints = [] 
 
 # ==========================================
-# 2. CHARGEMENT SÉCURISÉ DES IMAGES
+# 2. CHARGEMENT ET AFFICHAGE DES COINS
 # ==========================================
 script_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(script_dir)
-image_dir = os.path.join(root_dir, "data", "images_calibration") 
+image_dir = os.path.join(root_dir, "data", "images_calibration")
 
 extensions = ['*.png', '*.PNG', '*.jpg', '*.JPG', '*.jpeg', '*.JPEG']
 images = []
@@ -34,27 +34,20 @@ for ext in extensions:
 
 print(f"Nombre d'images trouvées dans {image_dir} : {len(images)}")
 
-if len(images) == 0:
-    print("\n[ERREUR] Aucune image trouvée ! Vérifie que tes photos sont bien dans le dossier 'images_calibration'.")
-    exit()
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 image_size = None
 valid_images = 0
 
-# Critère d'arrêt corrigé pour OpenCV 4/5
-criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-
 for fname in images:
     img = cv2.imread(fname)
-    
     if img is None:
-        print(f"[ATTENTION] Impossible de lire le fichier : {fname}")
         continue
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     image_size = gray.shape[::-1]
 
-    # Détection des coins du damier
+    # Détection des coins
     ret, corners = cv2.findChessboardCorners(gray, CHECKERBOARD, None)
 
     if ret:
@@ -62,15 +55,22 @@ for fname in images:
         corners2 = cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
         imgpoints.append(corners2)
         valid_images += 1
-        print(f"[OK] Coins détectés avec succès : {os.path.basename(fname)}")
-    else:
-        print(f"[ECHEC] Damier non détecté sur : {os.path.basename(fname)}")
+
+        # 1. Dessiner les coins sur l'image
+        img_drawn = cv2.drawChessboardCorners(img.copy(), CHECKERBOARD, corners2, ret)
+
+        # 2. Sauvegarder l'image annotée dans data/output/
+        output_dir = os.path.join(root_dir, "data", "output", "corners_detected")
+        os.makedirs(output_dir, exist_ok=True)
+        
+        base_name = os.path.basename(fname)
+        save_path = os.path.join(output_dir, f"detected_{base_name}")
+        cv2.imwrite(save_path, img_drawn)
+
+# Ferme toutes les fenêtres d'affichage à la fin de la boucle
+cv2.destroyAllWindows()
 
 print(f"\nTotal : {valid_images}/{len(images)} images validées pour la calibration.")
-
-if valid_images < 5:
-    print("[ERREUR] Il faut au moins 5 images valides pour faire la calibration.")
-    exit()
 
 # ==========================================
 # 3. CALIBRATION & EXTRACTION
