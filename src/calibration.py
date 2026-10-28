@@ -121,6 +121,6 @@ if ret_test:
     img_test = cv2.line(img_test, corner, tuple(imgpts[1].ravel().astype(int)), (0, 255, 0), 4)  # Vert (Y)
     img_test = cv2.line(img_test, corner, tuple(imgpts[2].ravel().astype(int)), (255, 0, 0), 4)  # Bleu (Z)
     
-    output_path = os.path.join(root_dir, "data", "output" 'pose_3d_resultat.jpg')
+    output_path = os.path.join(root_dir, "data", "output", "pose_3d_resultat.jpg")
     cv2.imwrite(output_path, img_test)
     print(f"\nVisualisation enregistrée sous : {output_path}")
