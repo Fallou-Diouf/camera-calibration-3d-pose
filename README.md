@@ -45,7 +45,7 @@ camera-calibration-3d-pose/
 │   └── rapport.pdf          # Rapport détaillé du TP (LaTeX)
 ├── README.md                # Documentation du projet
 └── requirements.txt         # Dépendances Python
-
+```
 ---
 
 ## Installation & Exécution
@@ -55,13 +55,36 @@ Assurez-vous de disposer de Python 3.8+ puis installez les bibliothèques requis
 
 ```bash
 pip install -r requirements.txt
-
+``` 
 2. Lancement du Pipeline de Calibration
 
 Exécutez le script principal depuis la racine du projet :
 
 ```bash
 python src/calibration.py
-
+``` 
 ## Visualisation de la Pose 3D (Réalité Augmentée) :
 Une fois le capteur étalonné, un repère orthonormé 3D [X,Y,Z] (Rouge, Vert, Bleu) est projeté sur l'origine du damier
+
+## 📊 Résultats Obtenus
+
+| Paramètre / Métrique | Valeur Calculée |
+| :--- | :--- |
+| **Images Validées** | **19 / 19** ($100\%$) |
+| **Erreur de Rétroprojection (RMS)** | **2.4210 pixels** |
+| **Longueur Focale Physique ($f$)** | **4.79 mm** ($0.004789\text{ m}$) |
+| **Focales Pixelliques ($f_x, f_y$)** | $1526.38\text{ px} \quad / \quad 1547.41\text{ px}$ |
+| **Point Principal $(O_x, O_y)$** | $(1070.38, 794.51)\text{ pixels}$ |
+| **Champs de Vision (FOV)** | Horizontal: $51.80^\circ$ — Vertical: $66.01^\circ$ |
+| **Rapport d'Aspect (Aspect Ratio)** | **1.0138** |
+
+### Matrice Intrinsèque ($K$) Réelle :
+
+$$K = \begin{bmatrix} 1526.38 & 0 & 1070.38 \\ 0 & 1547.41 & 794.51 \\ 0 & 0 & 1 \end{bmatrix}$$
+
+### Coefficients de Distorsion :
+
+$$[k_1, k_2, p_1, p_2, k_3] = [0.1088, -0.5957, 0.0156, 0.0216, 1.0892]$$
+
+### Visualisation de la Pose 3D (Réalité Augmentée) :
+![Pose 3D Result](data/output/pose_3d_resultat.jpg)
