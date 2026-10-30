@@ -37,6 +37,7 @@ $$M_{\text{int}} = \begin{bmatrix} f_x & 0 & O_x \\ 0 & f_y & O_y \\ 0 & 0 & 1 \
 
 ## Structure du Dépôt
 
+```text
 camera-calibration-3d-pose/
 ├── CMakeLists.txt              # Configuration CMake pour la compilation C++
 ├── data/
@@ -49,7 +50,7 @@ camera-calibration-3d-pose/
 │   └── calibration_Fallou_Diouf_VMI2026.pdf  # Rapport LaTeX du TP
 ├── README.md                   # Documentation du projet
 └── requirements.txt            # Dépendances Python
-
+```
 ---
 
 ## Installation & Exécution
